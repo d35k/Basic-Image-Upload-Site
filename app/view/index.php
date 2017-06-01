@@ -89,7 +89,7 @@ if ($_POST) {
         $uyeAdi = $baglanti->query("SELECT userId FROM uyeler WHERE userName = '{$uyeAdi}'")->fetch(PDO::FETCH_ASSOC);
     }
     else{
-        $uyeAdi = 0;
+        $uyeAdi['userId'];
     }
     $durum = post('privacySettings');
     $dizinadi = realpath('.') . '/assets/images/' . $kategori[0] .'/';
@@ -102,12 +102,12 @@ if ($_POST) {
             $tur = pathinfo($isim, PATHINFO_EXTENSION);
 $tur = strtolower($tur);
 		if($tur == "jpeg" || $tur == "jpg" || $tur == "png" || $tur == "gif" || $tur == "bmp" || $tur =="tiff"){
-	 
+
 
             move_uploaded_file($_FILES['files']['tmp_name'][$i], $dizinadi . $gercekIsim . '.' . $tur);
             $query = $baglanti->prepare("INSERT INTO resimler SET resimAd = ?, resimAciklama = ?, resimYol = ?, resimYukleyenId = ?, kategoriId = ?, fotografDurum = ?");
             $insert = $query->execute(array(
-                $gercekIsim, $aciklama, $gercekIsim . '.' . $tur,$uyeAdi,$kategori[1],$durum
+                $gercekIsim, $aciklama, $gercekIsim . '.' . $tur,$uyeAdi['userId'],$kategori[1],$durum
 
             ));
             echo ' <div class="alert">
